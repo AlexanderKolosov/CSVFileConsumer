@@ -3,6 +3,9 @@ package net.optimalsolutionshub.csvfileconsumer.view;
 import net.optimalsolutionshub.csvfileconsumer.controller.CSVConsumerAppController;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 
 public class UIPanel extends JPanel{
     private CSVConsumerAppController csvConsumerApp;
@@ -70,5 +73,35 @@ public class UIPanel extends JPanel{
     }
 
     private void setUpListeners() {
+
+        createDataBase.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String text = dataBaseFullPath.getText();
+                System.out.println(text);
+            }
+        });
+
+        selectCSVFile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileopen = new JFileChooser();
+                int ret = fileopen.showDialog(null, "Select");
+                if (ret == JFileChooser.APPROVE_OPTION) {
+                    File csvFile = fileopen.getSelectedFile();
+                    String absolutePath = csvFile.getAbsolutePath();
+                    System.out.println(absolutePath);
+                    selectCSVFileLabel.setText(absolutePath);
+                }
+            }
+        });
+
+        exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                csvConsumerApp.getAppFrame().setVisible(false);
+                System.exit(0);
+            }
+        });
     }
 }

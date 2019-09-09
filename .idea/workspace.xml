@@ -2,11 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2d2781ce-b44a-46ea-9169-59ccb0dde3d7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/controller/CSVParserAppController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/controller/CSVConsumerAppController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/controller/CSVParserAppRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/controller/CSVConsumerAppRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/view/UIFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/view/UIFrame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/view/UIPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/view/UIPanel.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -52,10 +47,16 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/view/UIPanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="66" column="19" selection-start-line="66" selection-start-column="19" selection-end-line="66" selection-end-column="19" />
+            <state relative-caret-position="1581">
+              <caret line="93" selection-start-line="93" selection-end-line="93" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#3090#3276#0" expanded="true" />
+                <element signature="e#3275#3276#0" expanded="true" />
+                <element signature="e#3134#3652#0" expanded="true" />
+                <element signature="e#3651#3652#0" expanded="true" />
+                <element signature="e#3712#3897#0" expanded="true" />
+                <element signature="e#3896#3897#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -73,8 +74,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/controller/CSVConsumerAppController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="29" column="34" selection-start-line="29" selection-start-column="34" selection-end-line="29" selection-end-column="34" />
+            <state relative-caret-position="380">
+              <caret line="29" column="19" selection-start-line="29" selection-start-column="19" selection-end-line="29" selection-end-column="19" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#449#450#0" expanded="true" />
@@ -93,8 +94,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/view/UIFrame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="22" lean-forward="true" selection-start-line="22" selection-end-line="22" />
+            <state relative-caret-position="170">
+              <caret line="10" column="44" selection-start-line="10" selection-start-column="44" selection-end-line="10" selection-end-column="44" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -410,8 +411,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/controller/CSVConsumerAppController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="29" column="34" selection-start-line="29" selection-start-column="34" selection-end-line="29" selection-end-column="34" />
+        <state relative-caret-position="380">
+          <caret line="29" column="19" selection-start-line="29" selection-start-column="19" selection-end-line="29" selection-end-column="19" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#449#450#0" expanded="true" />
@@ -428,8 +429,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/view/UIFrame.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" lean-forward="true" selection-start-line="22" selection-end-line="22" />
+        <state relative-caret-position="170">
+          <caret line="10" column="44" selection-start-line="10" selection-start-column="44" selection-end-line="10" selection-end-column="44" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -438,10 +439,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/view/UIPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="66" column="19" selection-start-line="66" selection-start-column="19" selection-end-line="66" selection-end-column="19" />
+        <state relative-caret-position="1581">
+          <caret line="93" selection-start-line="93" selection-end-line="93" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#3090#3276#0" expanded="true" />
+            <element signature="e#3275#3276#0" expanded="true" />
+            <element signature="e#3134#3652#0" expanded="true" />
+            <element signature="e#3651#3652#0" expanded="true" />
+            <element signature="e#3712#3897#0" expanded="true" />
+            <element signature="e#3896#3897#0" expanded="true" />
           </folding>
         </state>
       </provider>
