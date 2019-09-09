@@ -4,7 +4,7 @@ import net.optimalsolutionshub.csvfileconsumer.model.CSVFileParser;
 import net.optimalsolutionshub.csvfileconsumer.model.SQLiteDBFactory;
 import net.optimalsolutionshub.csvfileconsumer.view.UIFrame;
 
-public class CSVParserAppController {
+public class CSVConsumerAppController {
     private UIFrame appFrame;
     private SQLiteDBFactory sqLiteDBFactory;
     private CSVFileParser csvFileParser;
@@ -21,7 +21,7 @@ public class CSVParserAppController {
         return csvFileParser;
     }
 
-    public CSVParserAppController() {
+    public CSVConsumerAppController() {
         sqLiteDBFactory = new SQLiteDBFactory();
         csvFileParser = new CSVFileParser();
     }
