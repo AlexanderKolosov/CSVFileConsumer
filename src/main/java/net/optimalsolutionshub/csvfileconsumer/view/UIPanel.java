@@ -1,21 +1,26 @@
 package net.optimalsolutionshub.csvfileconsumer.view;
 
 import net.optimalsolutionshub.csvfileconsumer.controller.CSVConsumerAppController;
+import net.optimalsolutionshub.csvfileconsumer.model.CSVFileParser;
 import net.optimalsolutionshub.csvfileconsumer.model.SQLiteDataBaseFactory;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
 
 public class UIPanel extends JPanel{
     private CSVConsumerAppController csvConsumerApp;
     private JLabel dataBaseLabel;
     private JLabel selectCSVFileLabel;
+    private JLabel processNotification;
     private JTextField dataBaseAbsolutePath;
     private JButton createDataBase;
     private JButton selectCSVFile;
     private JButton exit;
+    private JButton startOperation;
     private SpringLayout baseLayout;
     private SQLiteDataBaseFactory sqLiteDataBaseFactory;
 
@@ -24,10 +29,12 @@ public class UIPanel extends JPanel{
 
         dataBaseLabel = new JLabel("Insert database full path or leave default value");
         selectCSVFileLabel = new JLabel("CSV file NOT selected");
+        processNotification = new JLabel();
         dataBaseAbsolutePath = new JTextField("C:/sqlite/db/customerXDatabase.db", 30);
         createDataBase = new JButton("Create database");
         selectCSVFile = new JButton("Select CSV file");
         exit = new JButton("EXIT");
+        startOperation = new JButton("START OPERATION");
 
         baseLayout = new SpringLayout();
 
@@ -37,7 +44,7 @@ public class UIPanel extends JPanel{
     }
 
     private void setUpPanel() {
-        this.setSize(500,230);
+        this.setSize(500,300);
         this.setLayout(baseLayout);
         this.add(dataBaseLabel);
         this.add(dataBaseAbsolutePath);
@@ -45,6 +52,7 @@ public class UIPanel extends JPanel{
         this.add(selectCSVFile);
         this.add(selectCSVFileLabel);
         this.add(exit);
+        this.add(processNotification);
     }
 
     private void setUpLayout() {
@@ -71,7 +79,11 @@ public class UIPanel extends JPanel{
         baseLayout.putConstraint(SpringLayout.WEST, exit,
                 410, SpringLayout.WEST, this);
         baseLayout.putConstraint(SpringLayout.NORTH, exit,
-                25, SpringLayout.NORTH, selectCSVFileLabel);
+                100, SpringLayout.NORTH, selectCSVFileLabel);
+        baseLayout.putConstraint(SpringLayout.WEST, processNotification,
+                10, SpringLayout.WEST, this);
+        baseLayout.putConstraint(SpringLayout.NORTH, processNotification,
+                95, SpringLayout.NORTH, selectCSVFileLabel);
     }
 
     private void setUpListeners() {
@@ -80,8 +92,10 @@ public class UIPanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 String dataBaseAbsolutePathText = dataBaseAbsolutePath.getText();
-                csvConsumerApp.setSqLiteDataBaseFactory(
-                        new SQLiteDataBaseFactory(csvConsumerApp, dataBaseAbsolutePathText));
+                getSqLiteDataBaseFactory().setDataBaseAbsolutePath(dataBaseAbsolutePathText);
+                getSqLiteDataBaseFactory().createConnectionToCustomerXDataBase();
+                getSqLiteDataBaseFactory().setDatabaseIsCreated(true);
+                getSqLiteDataBaseFactory().startOperation();
             }
         });
 
@@ -93,8 +107,38 @@ public class UIPanel extends JPanel{
                 if (ret == JFileChooser.APPROVE_OPTION) {
                     File csvFile = fileopen.getSelectedFile();
                     String absolutePath = csvFile.getAbsolutePath();
-                    System.out.println(absolutePath);
-                    selectCSVFileLabel.setText(absolutePath);
+                    if (absolutePath.endsWith(".csv")) {
+                        selectCSVFileLabel.setText(absolutePath);
+                        getCSVFileParser().setCSVfilePath(absolutePath);
+                        getSqLiteDataBaseFactory().setCsvFileIsSelected(true);
+                        getSqLiteDataBaseFactory().startOperation();
+                    } else {
+                        this.badFileSelectedNotification();
+                    }
+                }
+            }
+
+            private void badFileSelectedNotification() {
+                JOptionPane.showMessageDialog(
+                        csvConsumerApp.getAppFrame().getAppPanel(),
+                        "Wrong file selected! Please, verify extension of the selected" +
+                                "file. Extension should be '.csv'",
+                        "Bad operation notification",
+                        JOptionPane.DEFAULT_OPTION
+                );
+            }
+        });
+
+        startOperation.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    getCSVFileParser().parseCSVFile();
+                    processNotification.setText("Application in process. Please, wait.");
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
                 }
             }
         });
@@ -125,7 +169,6 @@ public class UIPanel extends JPanel{
                 "Bad operation notification",
                 JOptionPane.DEFAULT_OPTION
         );
-
     }
 
     public void dataBaseSuccessfullyCreationNotification() {
@@ -135,5 +178,33 @@ public class UIPanel extends JPanel{
                 "",
                 JOptionPane.DEFAULT_OPTION
         );
+    }
+
+    public void insertTableName() {
+        Object result = JOptionPane.showInputDialog(this,
+                "Insert table name",
+                "",
+                JOptionPane.DEFAULT_OPTION
+        );
+        if (result != null) {
+            String tableName = result.toString();
+            getSqLiteDataBaseFactory().setTableName(tableName);
+        }
+    }
+
+    public void showStartOperationButton() {
+        this.add(startOperation);
+        baseLayout.putConstraint(SpringLayout.WEST, startOperation,
+                322, SpringLayout.WEST, this);
+        baseLayout.putConstraint(SpringLayout.NORTH, startOperation,
+                25, SpringLayout.NORTH, selectCSVFileLabel);
+    }
+
+    public SQLiteDataBaseFactory getSqLiteDataBaseFactory() {
+        return csvConsumerApp.getSqLiteDataBaseFactory();
+    }
+
+    public CSVFileParser getCSVFileParser() {
+        return csvConsumerApp.getCSVFileParser();
     }
 }

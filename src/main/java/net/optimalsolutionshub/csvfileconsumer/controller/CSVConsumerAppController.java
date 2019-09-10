@@ -17,16 +17,13 @@ public class CSVConsumerAppController {
         return sqLiteDataBaseFactory;
     }
 
-    public CSVFileParser getCsvFileParser() {
+    public CSVFileParser getCSVFileParser() {
         return csvFileParser;
     }
 
-    public void setSqLiteDataBaseFactory(SQLiteDataBaseFactory sqLiteDataBaseFactory) {
-        this.sqLiteDataBaseFactory = sqLiteDataBaseFactory;
-    }
-
     public CSVConsumerAppController() {
-        csvFileParser = new CSVFileParser();
+        sqLiteDataBaseFactory = new SQLiteDataBaseFactory(this);
+        csvFileParser = new CSVFileParser(this);
     }
 
     public void start() {

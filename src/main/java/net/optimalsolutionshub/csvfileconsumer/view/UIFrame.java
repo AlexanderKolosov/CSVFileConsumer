@@ -20,7 +20,7 @@ public class UIFrame extends JFrame {
         this.setTitle("CSVFileConsumer");
         this.setContentPane(appPanel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(500,230);
+        this.setSize(500,300);
         this.setVisible(true);
     }
 }

@@ -18,20 +18,18 @@ public class SQLiteDataBaseFactory {
     private static Statement statement;
     private String dataBaseName;
     private String dataBasePath;
-    private static String tableName = "customerXTable";
+    private String tableName;
     private String dataBaseAbsolutePath;
-    private UIPanel uiPanel;
+    private boolean databaseIsCreated = false;
+    private boolean csvFileIsSelected = false;
     private CSVConsumerAppController csvConsumerApp;
 
-    public SQLiteDataBaseFactory(CSVConsumerAppController csvConsumerApp, String dataBaseAbsolutePathText) {
+    public SQLiteDataBaseFactory(CSVConsumerAppController csvConsumerApp) {
         this.csvConsumerApp = csvConsumerApp;
-        dataBaseAbsolutePath = dataBaseAbsolutePathText;
-
-        createConnectionToCustomerXDataBase();
     }
 
-    /*public static void createCustomerXTable(String[] columnHeaders) throws SQLException, IOException {
-        createConnectionToCustomerXDataBase();
+    public void createCustomerXTable(String[] columnHeaders) throws SQLException, IOException {
+        getAppPanel().insertTableName();
         String createTableQuery = buildCreateTableQuery(columnHeaders);
         try {
             statement = connection.createStatement();
@@ -39,23 +37,25 @@ public class SQLiteDataBaseFactory {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }*/
+    }
 
-    private Connection createConnectionToCustomerXDataBase() {
+    public void createConnectionToCustomerXDataBase() {
         createDataBaseDirectory(dataBaseAbsolutePath);
         setDataBaseName(dataBaseAbsolutePath);
         if (dataBaseName.endsWith(".db")) {
+            databaseIsCreated = true;
             String dbUrl = "jdbc:sqlite:" + dataBasePath + "/" + dataBaseName;
             try {
                 connection = DriverManager.getConnection(dbUrl);
-                csvConsumerApp.getAppFrame().getAppPanel().dataBaseSuccessfullyCreationNotification();
+                startOperation();
+                getAppPanel().dataBaseSuccessfullyCreationNotification();
+                getAppPanel().updateUI();
             } catch (SQLException e) {
                 e.getMessage();
             }
         } else {
-            csvConsumerApp.getAppFrame().getAppPanel().badDataBaseExtensionNotification();
+            getAppPanel().badDataBaseExtensionNotification();
         }
-        return connection;
     }
 
     private void createDataBaseDirectory(String dataBaseAbsolutePath) {
@@ -66,7 +66,7 @@ public class SQLiteDataBaseFactory {
                             .get(dataBaseAbsolutePath
                                     .substring(0, dataBaseAbsolutePath.lastIndexOf("/"))));
         } catch (IOException e) {
-            csvConsumerApp.getAppFrame().getAppPanel().badDirectoryNotification();
+            getAppPanel().badDirectoryNotification();
         }
         dataBasePath = dataBaseDirectory.toString();
     }
@@ -75,7 +75,13 @@ public class SQLiteDataBaseFactory {
         dataBaseName = dataBaseAbsolutePath.substring(dataBaseAbsolutePath.lastIndexOf("/"));
     }
 
-    private static String buildCreateTableQuery(String[] columnHeaders) {
+    public void startOperation() {
+        if (databaseIsCreated && csvFileIsSelected) {
+            getAppPanel().showStartOperationButton();
+        }
+    }
+
+    private String buildCreateTableQuery(String[] columnHeaders) {
         StringBuilder queryBuilder = new StringBuilder("CREATE TABLE IF NOT EXISTS "+tableName+"(");
         for (int i = 0; i < columnHeaders.length; i++) {
             queryBuilder.append(columnHeaders[i])
@@ -85,5 +91,25 @@ public class SQLiteDataBaseFactory {
         String query = result.substring(0,result.length()-2) + ");";
 
         return query;
+    }
+
+    public void setDataBaseAbsolutePath(String dataBaseAbsolutePath) {
+        this.dataBaseAbsolutePath = dataBaseAbsolutePath;
+    }
+
+    public void setCsvFileIsSelected(boolean csvFileIsSelected) {
+        this.csvFileIsSelected = csvFileIsSelected;
+    }
+
+    public void setDatabaseIsCreated(boolean databaseIsCreated) {
+        this.databaseIsCreated = databaseIsCreated;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
+
+    public UIPanel getAppPanel() {
+        return csvConsumerApp.getAppFrame().getAppPanel();
     }
 }
