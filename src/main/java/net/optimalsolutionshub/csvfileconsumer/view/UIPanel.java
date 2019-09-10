@@ -2,6 +2,7 @@ package net.optimalsolutionshub.csvfileconsumer.view;
 
 import net.optimalsolutionshub.csvfileconsumer.controller.CSVConsumerAppController;
 import net.optimalsolutionshub.csvfileconsumer.model.CSVFileParser;
+import net.optimalsolutionshub.csvfileconsumer.model.CSVFileReader;
 import net.optimalsolutionshub.csvfileconsumer.model.SQLiteDataBaseFactory;
 
 import javax.swing.*;
@@ -109,7 +110,7 @@ public class UIPanel extends JPanel{
                     String absolutePath = csvFile.getAbsolutePath();
                     if (absolutePath.endsWith(".csv")) {
                         selectCSVFileLabel.setText(absolutePath);
-                        getCSVFileParser().setCSVfilePath(absolutePath);
+                        getCSVFileReader().setCSVFilePath(absolutePath);
                         getSqLiteDataBaseFactory().setCsvFileIsSelected(true);
                         getSqLiteDataBaseFactory().startOperation();
                     } else {
@@ -133,8 +134,8 @@ public class UIPanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    getCSVFileParser().parseCSVFile();
                     processNotification.setText("Application in process. Please, wait.");
+                    getCSVFileReader().readCSVFile();
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 } catch (SQLException ex) {
@@ -155,8 +156,7 @@ public class UIPanel extends JPanel{
     public void badDirectoryNotification() {
         JOptionPane.showMessageDialog(
                 this,
-                "Wrong directory selected! Please, verify available disc name and syntax " +
-                        "like on the example below.",
+                "Wrong directory selected! Please, verify available disc name or syntax.",
                 "Bad operation notification",
                 JOptionPane.DEFAULT_OPTION
         );
@@ -175,7 +175,7 @@ public class UIPanel extends JPanel{
         JOptionPane.showMessageDialog(
                 this,
                 "Data base created successfully!",
-                "",
+                "Report",
                 JOptionPane.DEFAULT_OPTION
         );
     }
@@ -204,7 +204,24 @@ public class UIPanel extends JPanel{
         return csvConsumerApp.getSqLiteDataBaseFactory();
     }
 
+    public CSVFileReader getCSVFileReader() {
+        return csvConsumerApp.getCSVFileReader();
+    }
+
     public CSVFileParser getCSVFileParser() {
-        return csvConsumerApp.getCSVFileParser();
+        return  csvConsumerApp.getCSVFileParser();
+    }
+
+    public void showFinalInformation() {
+        processNotification.setText("");
+        startOperation.setVisible(false);
+        JOptionPane.showMessageDialog(this,
+                new String[] {"1. First",
+                "2. Second",
+                "3. Third",
+                "Link #1",
+                "Link #2"},
+                "Report",
+                JOptionPane.DEFAULT_OPTION);
     }
 }

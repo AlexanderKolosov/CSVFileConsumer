@@ -20,6 +20,7 @@ public class SQLiteDataBaseFactory {
     private String dataBasePath;
     private String tableName;
     private String dataBaseAbsolutePath;
+    private String tableColumnHeaders = "";
     private boolean databaseIsCreated = false;
     private boolean csvFileIsSelected = false;
     private CSVConsumerAppController csvConsumerApp;
@@ -84,11 +85,43 @@ public class SQLiteDataBaseFactory {
     private String buildCreateTableQuery(String[] columnHeaders) {
         StringBuilder queryBuilder = new StringBuilder("CREATE TABLE IF NOT EXISTS "+tableName+"(");
         for (int i = 0; i < columnHeaders.length; i++) {
+            tableColumnHeaders += columnHeaders[i] + ",";
             queryBuilder.append(columnHeaders[i])
                     .append(" VARCHAR(255) NOT NULL, ");
         }
+        tableColumnHeaders = tableColumnHeaders.substring(0, tableColumnHeaders.length() - 1);
+        String queryResult = queryBuilder.toString();
+        String query = queryResult.substring(0,queryResult.length()-2) + ");";
+
+        return query;
+    }
+
+    public void insertValuesIntoTable(String[] values) {
+        String query = createInsertQuery(values);
+        try {
+            statement = connection.createStatement();
+            statement.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String createInsertQuery(String[] values) {
+        StringBuilder queryBuilder = new StringBuilder(
+                "INSERT INTO " + tableName + "(" + tableColumnHeaders + ") VALUES(");
+        for (int i = 0; i < values.length; i++) {
+            if (i == 4) {
+                queryBuilder.append("'\"")
+                        .append(values[i])
+                        .append("\"',");
+            } else {
+                queryBuilder.append("'")
+                        .append(values[i])
+                        .append("',");
+            }
+        }
         String result = queryBuilder.toString();
-        String query = result.substring(0,result.length()-2) + ");";
+        String query = result.substring(0, result.length()-1) + ");";
 
         return query;
     }
@@ -111,5 +144,16 @@ public class SQLiteDataBaseFactory {
 
     public UIPanel getAppPanel() {
         return csvConsumerApp.getAppFrame().getAppPanel();
+    }
+
+    public String getDataBasePath() {
+        return dataBasePath;
+    }
+
+    public void closeConnection() throws SQLException {
+        if (connection != null) {
+            connection.close();
+        }
+        getAppPanel().showFinalInformation();
     }
 }
