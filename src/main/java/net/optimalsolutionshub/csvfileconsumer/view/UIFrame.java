@@ -5,16 +5,20 @@ import net.optimalsolutionshub.csvfileconsumer.controller.CSVConsumerAppControll
 import javax.swing.*;
 
 public class UIFrame extends JFrame {
-        private UIPanel uiPanel;
+    private UIPanel appPanel;
 
     public UIFrame(CSVConsumerAppController csvConsumerApp) {
-        uiPanel = new UIPanel(csvConsumerApp);
+        appPanel = new UIPanel(csvConsumerApp);
         setUpFrame();
+    }
+
+    public UIPanel getAppPanel() {
+        return appPanel;
     }
 
     private void setUpFrame() {
         this.setTitle("CSVFileConsumer");
-        this.setContentPane(uiPanel);
+        this.setContentPane(appPanel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(500,230);
         this.setVisible(true);

@@ -9,14 +9,14 @@ import java.sql.SQLException;
 public class CSVFileParser {
     private static String CSVfilePath = "D:/Java/Test/Interview-task-data-osh.csv";
 
-    public static void parseCSVFile() throws IOException, SQLException {
+    /*public static void parseCSVFile() throws IOException, SQLException {
         CSVReader reader = new CSVReader(new FileReader(CSVfilePath));
 
         String[] nextLine = reader.readNext();
-        SQLiteDBFactory.createCustomerXTable(nextLine);
+        SQLiteDataBaseFactory.createCustomerXTable(nextLine);
     }
-
-    public static void main(String[] args) {
+*/
+    /*public static void main(String[] args) {
         try {
             CSVFileParser.parseCSVFile();
         } catch (IOException e) {
@@ -24,5 +24,5 @@ public class CSVFileParser {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }

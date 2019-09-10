@@ -1,28 +1,31 @@
 package net.optimalsolutionshub.csvfileconsumer.controller;
 
 import net.optimalsolutionshub.csvfileconsumer.model.CSVFileParser;
-import net.optimalsolutionshub.csvfileconsumer.model.SQLiteDBFactory;
+import net.optimalsolutionshub.csvfileconsumer.model.SQLiteDataBaseFactory;
 import net.optimalsolutionshub.csvfileconsumer.view.UIFrame;
 
 public class CSVConsumerAppController {
     private UIFrame appFrame;
-    private SQLiteDBFactory sqLiteDBFactory;
+    private SQLiteDataBaseFactory sqLiteDataBaseFactory;
     private CSVFileParser csvFileParser;
 
     public UIFrame getAppFrame() {
         return appFrame;
     }
 
-    public SQLiteDBFactory getSqLiteDBFactory() {
-        return sqLiteDBFactory;
+    public SQLiteDataBaseFactory getSqLiteDataBaseFactory() {
+        return sqLiteDataBaseFactory;
     }
 
     public CSVFileParser getCsvFileParser() {
         return csvFileParser;
     }
 
+    public void setSqLiteDataBaseFactory(SQLiteDataBaseFactory sqLiteDataBaseFactory) {
+        this.sqLiteDataBaseFactory = sqLiteDataBaseFactory;
+    }
+
     public CSVConsumerAppController() {
-        sqLiteDBFactory = new SQLiteDBFactory();
         csvFileParser = new CSVFileParser();
     }
 

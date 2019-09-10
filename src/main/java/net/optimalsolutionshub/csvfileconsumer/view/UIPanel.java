@@ -1,6 +1,7 @@
 package net.optimalsolutionshub.csvfileconsumer.view;
 
 import net.optimalsolutionshub.csvfileconsumer.controller.CSVConsumerAppController;
+import net.optimalsolutionshub.csvfileconsumer.model.SQLiteDataBaseFactory;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -11,18 +12,19 @@ public class UIPanel extends JPanel{
     private CSVConsumerAppController csvConsumerApp;
     private JLabel dataBaseLabel;
     private JLabel selectCSVFileLabel;
-    private JTextField dataBaseFullPath;
+    private JTextField dataBaseAbsolutePath;
     private JButton createDataBase;
     private JButton selectCSVFile;
     private JButton exit;
     private SpringLayout baseLayout;
+    private SQLiteDataBaseFactory sqLiteDataBaseFactory;
 
     public UIPanel(CSVConsumerAppController csvConsumerApp) {
         this.csvConsumerApp = csvConsumerApp;
 
         dataBaseLabel = new JLabel("Insert database full path or leave default value");
         selectCSVFileLabel = new JLabel("CSV file NOT selected");
-        dataBaseFullPath = new JTextField("C:/sqlite/db/customerXDatabase.db", 30);
+        dataBaseAbsolutePath = new JTextField("C:/sqlite/db/customerXDatabase.db", 30);
         createDataBase = new JButton("Create database");
         selectCSVFile = new JButton("Select CSV file");
         exit = new JButton("EXIT");
@@ -38,7 +40,7 @@ public class UIPanel extends JPanel{
         this.setSize(500,230);
         this.setLayout(baseLayout);
         this.add(dataBaseLabel);
-        this.add(dataBaseFullPath);
+        this.add(dataBaseAbsolutePath);
         this.add(createDataBase);
         this.add(selectCSVFile);
         this.add(selectCSVFileLabel);
@@ -46,14 +48,14 @@ public class UIPanel extends JPanel{
     }
 
     private void setUpLayout() {
-        baseLayout.putConstraint(SpringLayout.WEST, dataBaseFullPath,
+        baseLayout.putConstraint(SpringLayout.WEST, dataBaseAbsolutePath,
                 10, SpringLayout.WEST, this);
-        baseLayout.putConstraint(SpringLayout.NORTH, dataBaseFullPath,
+        baseLayout.putConstraint(SpringLayout.NORTH, dataBaseAbsolutePath,
                 25, SpringLayout.NORTH, this);
         baseLayout.putConstraint(SpringLayout.WEST, dataBaseLabel,
                 10, SpringLayout.WEST, this);
         baseLayout.putConstraint(SpringLayout.NORTH, dataBaseLabel,
-                25, SpringLayout.NORTH, dataBaseFullPath);
+                25, SpringLayout.NORTH, dataBaseAbsolutePath);
         baseLayout.putConstraint(SpringLayout.EAST, createDataBase,
                 470, SpringLayout.NORTH, this);
         baseLayout.putConstraint(SpringLayout.NORTH, createDataBase,
@@ -77,8 +79,9 @@ public class UIPanel extends JPanel{
         createDataBase.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String text = dataBaseFullPath.getText();
-                System.out.println(text);
+                String dataBaseAbsolutePathText = dataBaseAbsolutePath.getText();
+                csvConsumerApp.setSqLiteDataBaseFactory(
+                        new SQLiteDataBaseFactory(csvConsumerApp, dataBaseAbsolutePathText));
             }
         });
 
@@ -103,5 +106,34 @@ public class UIPanel extends JPanel{
                 System.exit(0);
             }
         });
+    }
+
+    public void badDirectoryNotification() {
+        JOptionPane.showMessageDialog(
+                this,
+                "Wrong directory selected! Please, verify available disc name and syntax " +
+                        "like on the example below.",
+                "Bad operation notification",
+                JOptionPane.DEFAULT_OPTION
+        );
+    }
+
+    public void badDataBaseExtensionNotification() {
+        JOptionPane.showMessageDialog(
+                this,
+                "Wrong data base extension! Extension should be '.db'",
+                "Bad operation notification",
+                JOptionPane.DEFAULT_OPTION
+        );
+
+    }
+
+    public void dataBaseSuccessfullyCreationNotification() {
+        JOptionPane.showMessageDialog(
+                this,
+                "Data base created successfully!",
+                "",
+                JOptionPane.DEFAULT_OPTION
+        );
     }
 }
