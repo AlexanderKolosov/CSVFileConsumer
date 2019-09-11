@@ -1,0 +1,2 @@
+сент. 11, 2019 4:29:22 PM net.optimalsolutionshub.csvfileconsumer.model.LogFileFactory getLog
+INFO: Начало main, создаем лист с типизацией Integers

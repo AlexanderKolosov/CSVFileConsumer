@@ -3,7 +3,6 @@ package net.optimalsolutionshub.csvfileconsumer.model;
 import au.com.bytecode.opencsv.CSVReader;
 import net.optimalsolutionshub.csvfileconsumer.controller.CSVConsumerAppController;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.SQLException;

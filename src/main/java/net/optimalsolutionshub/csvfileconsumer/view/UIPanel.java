@@ -1,9 +1,7 @@
 package net.optimalsolutionshub.csvfileconsumer.view;
 
 import net.optimalsolutionshub.csvfileconsumer.controller.CSVConsumerAppController;
-import net.optimalsolutionshub.csvfileconsumer.model.CSVFileParser;
-import net.optimalsolutionshub.csvfileconsumer.model.CSVFileReader;
-import net.optimalsolutionshub.csvfileconsumer.model.SQLiteDataBaseFactory;
+import net.optimalsolutionshub.csvfileconsumer.model.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -202,15 +200,23 @@ public class UIPanel extends JPanel{
     }
 
     public SQLiteDataBaseFactory getSqLiteDataBaseFactory() {
-        return csvConsumerApp.getSqLiteDataBaseFactory();
+        return csvConsumerApp.getSQLiteDataBaseFactory();
     }
 
     public CSVFileReader getCSVFileReader() {
         return csvConsumerApp.getCSVFileReader();
     }
 
+    public CSVFileWriter getCSVFileWriter() {
+        return csvConsumerApp.getCSVFileWriter();
+    }
+
     public CSVFileParser getCSVFileParser() {
         return  csvConsumerApp.getCSVFileParser();
+    }
+
+    public LogFileFactory getLogFileFactory() {
+        return csvConsumerApp.getLogFileFactory();
     }
 
     public void showFinalInformation() {
@@ -218,12 +224,24 @@ public class UIPanel extends JPanel{
         selectCSVFileLabel.setText("CSV file NOT selected");
         startOperation.setVisible(false);
         JOptionPane.showMessageDialog(this,
-                new String[] {"1. First",
-                "2. Second",
-                "3. Third",
-                "Link #1",
-                "Link #2"},
+                new String[] {"1. Number of records received - " +
+                        getCSVFileParser().getNumberOfReceivedRecords(),
+                "2. Number of records successful - " +
+                        getCSVFileParser().getNumberOfSuccessfulRecords(),
+                "3. Number of records failed - " +
+                        getCSVFileParser().getNumberOfBadRecords(),
+                "Bad-data file location : " + getCSVFileWriter().getAbsolutePathToBadDataFile(),
+                "Log file location : " + getLogFileFactory().getAbsolutePathToLogFile()},
                 "Report",
                 JOptionPane.DEFAULT_OPTION);
+    }
+
+    public void badDatabaseInformation() {
+        JOptionPane.showMessageDialog(
+                this,
+                "Please insert again table name. With letters, only.",
+                "WARNING!",
+                JOptionPane.DEFAULT_OPTION
+        );
     }
 }

@@ -7,15 +7,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SQLiteDataBaseFactory {
 
-    private static Connection connection;
+    private Connection connection;
     private String dataBaseName;
     private String dataBasePath;
     private String tableName;
@@ -23,21 +21,36 @@ public class SQLiteDataBaseFactory {
     private String tableColumnHeaders = "";
     private boolean databaseIsCreated = false;
     private boolean csvFileIsSelected = false;
+    private boolean tableExists = false;
     private CSVConsumerAppController csvConsumerApp;
 
     public SQLiteDataBaseFactory(CSVConsumerAppController csvConsumerApp) {
         this.csvConsumerApp = csvConsumerApp;
     }
 
-    public void createCustomerXTable(String[] columnHeaders) throws SQLException, IOException {
+    public void createTable(String[] columnHeaders) throws IOException, SQLException {
         getAppPanel().insertTableName();
         String createTableQuery = buildCreateTableQuery(columnHeaders);
         try {
+            System.out.println(dataBaseName);
             Statement statement = connection.createStatement();
             statement.executeUpdate(createTableQuery);
+            isTheTableExists();
         } catch (SQLException e) {
             e.printStackTrace();
+
         }
+        int i = isTheTableExists();
+
+    }
+
+    private int isTheTableExists() throws SQLException {
+        String query =
+                "SELECT name FROM " + tableName + " WHERE type='table' AND name='table_name' COLLATE NOCASE";
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(query);
+
+        return 0;
     }
 
     public void createConnectionToCustomerXDataBase() {
@@ -95,13 +108,16 @@ public class SQLiteDataBaseFactory {
         return queryResult.substring(0,queryResult.length()-2) + ");";
     }
 
-    public void insertValuesIntoTable(List<String[]> goodStrings) {
+    public void insertValuesIntoTable(List<String[]> goodStrings) throws SQLException {
         String query = createInsertQuery(goodStrings);
-        try {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (!connection.isClosed()) {
+            try {
+                Statement statement = connection.createStatement();
+                statement.executeUpdate(query);
+                getCSVFleParser().setSuccessfulStrings(new ArrayList<String[]>());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -184,22 +200,43 @@ public class SQLiteDataBaseFactory {
         return dataBasePath;
     }
 
-    public void closeConnection() throws SQLException {
+    private CSVFileParser getCSVFleParser() {
+        return csvConsumerApp.getCSVFileParser();
+    }
+
+    public void closeConnection() throws SQLException, IOException {
         if (connection != null) {
             connection.close();
         }
+        getLogFileFactory().insertInformationToLogFile();
         getAppPanel().showFinalInformation();
         prepareAppForFurtherWork();
     }
 
-    private void prepareAppForFurtherWork() {
+    public void prepareAppForFurtherWork() {
         tableColumnHeaders = "";
+        tableName = "";
         databaseIsCreated = false;
         csvFileIsSelected = false;
         getCSVFileReader().setCSVFilePath("");
+        getCSVFleParser().setNumberOfBadRecords(0);
+        getCSVFleParser().setNumberOfReceivedRecords(0);
+        getCSVFleParser().setNumberOfSuccessfulRecords(0);
     }
 
     private CSVFileReader getCSVFileReader() {
         return csvConsumerApp.getCSVFileReader();
+    }
+
+    private LogFileFactory getLogFileFactory() {
+        return csvConsumerApp.getLogFileFactory();
+    }
+
+    public Connection getConnection() {
+        return connection;
+    }
+
+    public void setConnection(Connection connection) {
+        this.connection = connection;
     }
 }

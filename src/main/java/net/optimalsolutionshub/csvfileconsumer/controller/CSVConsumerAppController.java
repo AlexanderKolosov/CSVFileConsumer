@@ -1,9 +1,6 @@
 package net.optimalsolutionshub.csvfileconsumer.controller;
 
-import net.optimalsolutionshub.csvfileconsumer.model.CSVFileParser;
-import net.optimalsolutionshub.csvfileconsumer.model.CSVFileReader;
-import net.optimalsolutionshub.csvfileconsumer.model.CSVFileWriter;
-import net.optimalsolutionshub.csvfileconsumer.model.SQLiteDataBaseFactory;
+import net.optimalsolutionshub.csvfileconsumer.model.*;
 import net.optimalsolutionshub.csvfileconsumer.view.UIFrame;
 
 public class CSVConsumerAppController {
@@ -12,12 +9,13 @@ public class CSVConsumerAppController {
     private CSVFileParser csvFileParser;
     private CSVFileReader csvFileReader;
     private CSVFileWriter csvFileWriter;
+    private LogFileFactory logFileFactory;
 
     public UIFrame getAppFrame() {
         return appFrame;
     }
 
-    public SQLiteDataBaseFactory getSqLiteDataBaseFactory() {
+    public SQLiteDataBaseFactory getSQLiteDataBaseFactory() {
         return sqLiteDataBaseFactory;
     }
 
@@ -29,8 +27,12 @@ public class CSVConsumerAppController {
         return csvFileParser;
     }
 
-    public CSVFileWriter getCsvFileWriter() {
+    public CSVFileWriter getCSVFileWriter() {
         return csvFileWriter;
+    }
+
+    public LogFileFactory getLogFileFactory() {
+        return logFileFactory;
     }
 
     public CSVConsumerAppController() {
@@ -38,6 +40,7 @@ public class CSVConsumerAppController {
         csvFileParser = new CSVFileParser(this);
         csvFileReader = new CSVFileReader(this);
         csvFileWriter = new CSVFileWriter(this);
+        logFileFactory = new LogFileFactory(this);
     }
 
     public void start() {

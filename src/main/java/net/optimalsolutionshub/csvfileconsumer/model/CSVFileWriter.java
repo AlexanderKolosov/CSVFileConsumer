@@ -1,6 +1,5 @@
 package net.optimalsolutionshub.csvfileconsumer.model;
 
-import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVWriter;
 import net.optimalsolutionshub.csvfileconsumer.controller.CSVConsumerAppController;
 
@@ -18,6 +17,8 @@ import java.util.Locale;
 public class CSVFileWriter {
     private CSVConsumerAppController csvConsumerApp;
     private Path badDataFile;
+    private String absolutePathToBadDataFile;
+    private Date currentDate;
 
     public CSVFileWriter(CSVConsumerAppController csvConsumerApp) {
         this.csvConsumerApp = csvConsumerApp;
@@ -46,22 +47,30 @@ public class CSVFileWriter {
 
             String dataBasePath = getSqLiteDataBaseFactory().getDataBasePath();
             String badDataFilesDirectory=dataBasePath.substring(0,dataBasePath.lastIndexOf("\\"))+
-                    "/" + "bad-data-files";
+                    "\\" + "bad-data-files";
             Path directories = Files.createDirectories(Paths.get(badDataFilesDirectory));
 
-            Date currentDate = new Date();
+            currentDate = new Date();
             String badDataFileName = "bad-data-" + sdf.format(currentDate) + ".csv";
 
-            String absolutePathToBadDataFile = badDataFilesDirectory + "//" + badDataFileName;
+            absolutePathToBadDataFile = badDataFilesDirectory + "/" + badDataFileName;
 
         return absolutePathToBadDataFile;
     }
 
     private SQLiteDataBaseFactory getSqLiteDataBaseFactory() {
-        return csvConsumerApp.getSqLiteDataBaseFactory();
+        return csvConsumerApp.getSQLiteDataBaseFactory();
     }
 
     private CSVFileParser getCSVFileParser() {
         return csvConsumerApp.getCSVFileParser();
+    }
+
+    public String getAbsolutePathToBadDataFile() {
+        return absolutePathToBadDataFile;
+    }
+
+    public Date getCurrentDate() {
+        return currentDate;
     }
 }
