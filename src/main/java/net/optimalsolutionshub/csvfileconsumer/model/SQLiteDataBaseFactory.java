@@ -11,11 +11,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 public class SQLiteDataBaseFactory {
 
     private static Connection connection;
-    private static Statement statement;
     private String dataBaseName;
     private String dataBasePath;
     private String tableName;
@@ -33,7 +33,7 @@ public class SQLiteDataBaseFactory {
         getAppPanel().insertTableName();
         String createTableQuery = buildCreateTableQuery(columnHeaders);
         try {
-            statement = connection.createStatement();
+            Statement statement = connection.createStatement();
             statement.executeUpdate(createTableQuery);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -91,39 +91,73 @@ public class SQLiteDataBaseFactory {
         }
         tableColumnHeaders = tableColumnHeaders.substring(0, tableColumnHeaders.length() - 1);
         String queryResult = queryBuilder.toString();
-        String query = queryResult.substring(0,queryResult.length()-2) + ");";
 
-        return query;
+        return queryResult.substring(0,queryResult.length()-2) + ");";
     }
 
-    public void insertValuesIntoTable(String[] values) {
-        String query = createInsertQuery(values);
+    public void insertValuesIntoTable(List<String[]> goodStrings) {
+        String query = createInsertQuery(goodStrings);
         try {
-            statement = connection.createStatement();
+            Statement statement = connection.createStatement();
             statement.executeUpdate(query);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    private String createInsertQuery(String[] values) {
+    private String createInsertQuery(List<String[]> values) {
         StringBuilder queryBuilder = new StringBuilder(
-                "INSERT INTO " + tableName + "(" + tableColumnHeaders + ") VALUES(");
-        for (int i = 0; i < values.length; i++) {
-            if (i == 4) {
-                queryBuilder.append("'\"")
-                        .append(values[i])
-                        .append("\"',");
-            } else {
-                queryBuilder.append("'")
-                        .append(values[i])
-                        .append("',");
+                "INSERT INTO " + tableName + "(" + tableColumnHeaders + ") VALUES");
+        for (String[] value : values) {
+            queryBuilder.append("(");
+            for ( int i = 0; i < value.length; i++ ) {
+                if (i == 4) {
+                    queryBuilder.append("'\"")
+                            .append(value[i])
+                            .append("\"',");
+                } else {
+                    if (value[i].contains("'")) {
+                        int index = value[i].indexOf("'");
+                        value[i] = buildValidValue(value[i], index);
+                    }
+                    queryBuilder.append("'")
+                            .append(value[i])
+                            .append("',");
+                    value[i] = "";
+                }
+            }
+            queryBuilder.deleteCharAt(queryBuilder.length()-1);
+            queryBuilder.append("), ");
+        }
+
+        return queryBuilder.substring(0, queryBuilder.length()-2) + ";";
+    }
+
+    private String buildValidValue(String value, int index) {
+        String startOfTheValue = "";
+        String endOfTheValue = "";
+        if (index == 0) {
+            endOfTheValue = value;
+            value = "'" + endOfTheValue;
+            if (value.substring(index + 2)
+                    .contains("'")) {
+                value = buildValidValue(value, index + 2);
+            }
+        } else if (index == value.length() - 1) {
+            startOfTheValue = value;
+            value = startOfTheValue + "'";
+        } else {
+            index = value.indexOf("'");
+            startOfTheValue = value.substring(0, index);
+            endOfTheValue = value.substring(index);
+            value = startOfTheValue + "'" + endOfTheValue;
+            if (value.substring(index + 2)
+                    .contains("'")) {
+                value = buildValidValue(value, index + 2);
             }
         }
-        String result = queryBuilder.toString();
-        String query = result.substring(0, result.length()-1) + ");";
 
-        return query;
+        return value;
     }
 
     public void setDataBaseAbsolutePath(String dataBaseAbsolutePath) {
@@ -159,10 +193,6 @@ public class SQLiteDataBaseFactory {
     }
 
     private void prepareAppForFurtherWork() {
-        dataBaseName = "";
-        dataBasePath = "";
-        tableName = "";
-        dataBaseAbsolutePath = "";
         tableColumnHeaders = "";
         databaseIsCreated = false;
         csvFileIsSelected = false;

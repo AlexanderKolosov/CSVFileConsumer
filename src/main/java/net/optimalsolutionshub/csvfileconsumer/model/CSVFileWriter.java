@@ -1,5 +1,6 @@
 package net.optimalsolutionshub.csvfileconsumer.model;
 
+import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVWriter;
 import net.optimalsolutionshub.csvfileconsumer.controller.CSVConsumerAppController;
 
@@ -9,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -28,6 +30,7 @@ public class CSVFileWriter {
         try (CSVWriter writer = new CSVWriter(new FileWriter(badDataFile.toString(), true))) {
             writer.writeAll(badStrings);
         }
+        getCSVFileParser().setBadStrings(new ArrayList<String[]>());
     }
 
     private void createBadDataFile() {
@@ -39,7 +42,7 @@ public class CSVFileWriter {
     }
 
     private String createAbsoluteFilePath() throws IOException {
-            SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd'T'HH-mm-ss",Locale.ENGLISH);
+            SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd_'at'_HH-mm-ss",Locale.ENGLISH);
 
             String dataBasePath = getSqLiteDataBaseFactory().getDataBasePath();
             String badDataFilesDirectory=dataBasePath.substring(0,dataBasePath.lastIndexOf("\\"))+
@@ -54,7 +57,11 @@ public class CSVFileWriter {
         return absolutePathToBadDataFile;
     }
 
-    public SQLiteDataBaseFactory getSqLiteDataBaseFactory() {
+    private SQLiteDataBaseFactory getSqLiteDataBaseFactory() {
         return csvConsumerApp.getSqLiteDataBaseFactory();
+    }
+
+    private CSVFileParser getCSVFileParser() {
+        return csvConsumerApp.getCSVFileParser();
     }
 }
