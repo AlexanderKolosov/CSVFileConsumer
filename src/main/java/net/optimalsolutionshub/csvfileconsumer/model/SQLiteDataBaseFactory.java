@@ -155,5 +155,21 @@ public class SQLiteDataBaseFactory {
             connection.close();
         }
         getAppPanel().showFinalInformation();
+        prepareAppForFurtherWork();
+    }
+
+    private void prepareAppForFurtherWork() {
+        dataBaseName = "";
+        dataBasePath = "";
+        tableName = "";
+        dataBaseAbsolutePath = "";
+        tableColumnHeaders = "";
+        databaseIsCreated = false;
+        csvFileIsSelected = false;
+        getCSVFileReader().setCSVFilePath("");
+    }
+
+    private CSVFileReader getCSVFileReader() {
+        return csvConsumerApp.getCSVFileReader();
     }
 }

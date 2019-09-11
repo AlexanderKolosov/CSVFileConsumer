@@ -23,7 +23,7 @@ public class CSVFileParser {
         csvConsumerApp.getSqLiteDataBaseFactory().createCustomerXTable(nextLine);
         /*while (nextLine != null)*/ for (int i = 0; i < 10; i++) {
             nextLine = reader.readNext();
-            if (Arrays.toString(nextLine).contains(",,") || nextLine.length < 10) {
+            if (Arrays.asList(nextLine).contains("") || nextLine.length < 10) {
                 badStrings.add(nextLine);
                 if (badStrings.size() == 100000) {
                     getCsvFileWriter().writeValuesToCSVFile(badStrings);

@@ -194,6 +194,7 @@ public class UIPanel extends JPanel{
 
     public void showStartOperationButton() {
         this.add(startOperation);
+        startOperation.setVisible(true);
         baseLayout.putConstraint(SpringLayout.WEST, startOperation,
                 322, SpringLayout.WEST, this);
         baseLayout.putConstraint(SpringLayout.NORTH, startOperation,
@@ -214,6 +215,7 @@ public class UIPanel extends JPanel{
 
     public void showFinalInformation() {
         processNotification.setText("");
+        selectCSVFileLabel.setText("CSV file NOT selected");
         startOperation.setVisible(false);
         JOptionPane.showMessageDialog(this,
                 new String[] {"1. First",

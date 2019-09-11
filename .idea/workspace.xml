@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2d2781ce-b44a-46ea-9169-59ccb0dde3d7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/controller/CSVConsumerAppController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/controller/CSVConsumerAppController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/model/CSVFileParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/model/CSVFileParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/model/CSVFileWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/model/CSVFileWriter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/model/SQLiteDataBaseFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/model/SQLiteDataBaseFactory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/view/UIPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/view/UIPanel.java" afterDir="false" />
     </list>
@@ -34,17 +34,19 @@
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/model/SQLiteDataBaseFactory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-453">
-              <caret line="103" column="34" lean-forward="true" selection-start-line="103" selection-start-column="34" selection-end-line="103" selection-end-column="34" />
+            <state relative-caret-position="397">
+              <caret line="168" column="46" selection-start-line="168" selection-start-column="46" selection-end-line="168" selection-end-column="46" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#5107#5108#0" expanded="true" />
                 <element signature="e#5149#5150#0" expanded="true" />
+                <element signature="e#5185#5186#0" expanded="true" />
                 <element signature="e#5250#5251#0" expanded="true" />
-                <element signature="e#5337#5338#0" expanded="true" />
-                <element signature="e#5372#5373#0" expanded="true" />
+                <element signature="e#5805#5806#0" expanded="true" />
+                <element signature="e#5841#5842#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -53,15 +55,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/view/UIPanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1031">
-              <caret line="138" column="20" selection-start-line="138" selection-start-column="20" selection-end-line="138" selection-end-column="20" />
+            <state relative-caret-position="2210">
+              <caret line="219" column="8" selection-start-line="219" selection-start-column="8" selection-end-line="219" selection-end-column="8" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#5498#5681#0" expanded="true" />
-                <element signature="e#5680#5681#0" expanded="true" />
+                <element signature="e#8332#8333#0" expanded="true" />
                 <element signature="e#8388#8389#0" expanded="true" />
-                <element signature="e#8434#8435#0" expanded="true" />
-                <element signature="e#8471#8472#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -79,7 +78,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/controller/CSVConsumerAppController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="278">
+            <state relative-caret-position="289">
               <caret line="27" column="4" selection-start-line="27" selection-start-column="4" selection-end-line="29" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -95,7 +94,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/view/UIFrame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
+            <state relative-caret-position="306">
               <caret line="22" column="27" selection-start-line="22" selection-start-column="27" selection-end-line="22" selection-end-column="27" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -106,14 +105,16 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/model/CSVFileParser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="429">
-              <caret line="39" column="9" selection-start-line="39" selection-start-column="9" selection-end-line="39" selection-end-column="9" />
+            <state relative-caret-position="344">
+              <caret line="34" column="9" lean-forward="true" selection-start-line="34" selection-start-column="9" selection-end-line="34" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#1638#1639#0" expanded="true" />
                 <element signature="e#1694#1695#0" expanded="true" />
+                <element signature="e#1741#1742#0" expanded="true" />
                 <element signature="e#1797#1798#0" expanded="true" />
               </folding>
             </state>
@@ -123,14 +124,14 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/model/CSVFileReader.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="159">
-              <caret line="21" column="56" lean-forward="true" selection-start-line="21" selection-start-column="56" selection-end-line="21" selection-end-column="56" />
+            <state relative-caret-position="306">
+              <caret line="21" column="56" selection-start-line="21" selection-start-column="56" selection-end-line="21" selection-end-column="56" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#817#818#0" expanded="true" />
                 <element signature="e#863#864#0" expanded="true" />
+                <element signature="e#901#902#0" expanded="true" />
                 <element signature="e#935#936#0" expanded="true" />
-                <element signature="e#902#903#0" expanded="true" />
-                <element signature="e#938#939#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -139,8 +140,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/model/CSVFileWriter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="822">
-              <caret line="60" column="1" lean-forward="true" selection-start-line="60" selection-start-column="1" selection-end-line="60" selection-end-column="1" />
+            <state relative-caret-position="397">
+              <caret line="49" column="51" selection-start-line="49" selection-start-column="51" selection-end-line="49" selection-end-column="51" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -170,11 +171,11 @@
         <option value="$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/model/SQLiteDBFactory.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/view/UIFrame.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/controller/CSVConsumerAppController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/model/CSVFileWriter.java" />
-        <option value="$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/model/SQLiteDataBaseFactory.java" />
-        <option value="$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/view/UIPanel.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/model/CSVFileReader.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/model/CSVFileParser.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/model/CSVFileWriter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/view/UIPanel.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/model/SQLiteDataBaseFactory.java" />
       </list>
     </option>
   </component>
@@ -393,14 +394,14 @@
     <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25626913" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2593272" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="UI Designer" order="3" />
       <window_info id="Favorites" order="4" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3295063" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4996942" weight="0.3295063" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4996942" visible="true" weight="0.3295063" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -422,31 +423,12 @@
     </layout>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="24" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/CSVFileConsumer.iml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/view/UIFrame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" column="27" selection-start-line="22" selection-start-column="27" selection-end-line="22" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#404#405#0" expanded="true" />
-            <element signature="e#435#436#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/controller/CSVConsumerAppController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="278">
+        <state relative-caret-position="289">
           <caret line="27" column="4" selection-start-line="27" selection-start-column="4" selection-end-line="29" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -458,6 +440,39 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/view/UIFrame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="22" column="27" selection-start-line="22" selection-start-column="27" selection-end-line="22" selection-end-column="27" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#404#405#0" expanded="true" />
+            <element signature="e#435#436#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="24" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/model/CSVFileParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="344">
+          <caret line="34" column="9" lean-forward="true" selection-start-line="34" selection-start-column="9" selection-end-line="34" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1638#1639#0" expanded="true" />
+            <element signature="e#1694#1695#0" expanded="true" />
+            <element signature="e#1741#1742#0" expanded="true" />
+            <element signature="e#1797#1798#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/controller/CSVConsumerAppRunner.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -465,67 +480,54 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/model/CSVFileReader.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/model/CSVFileWriter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="159">
-          <caret line="21" column="56" lean-forward="true" selection-start-line="21" selection-start-column="56" selection-end-line="21" selection-end-column="56" />
+        <state relative-caret-position="397">
+          <caret line="49" column="51" selection-start-line="49" selection-start-column="51" selection-end-line="49" selection-end-column="51" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#863#864#0" expanded="true" />
-            <element signature="e#935#936#0" expanded="true" />
-            <element signature="e#902#903#0" expanded="true" />
-            <element signature="e#938#939#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/model/SQLiteDataBaseFactory.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/model/CSVFileReader.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-453">
-          <caret line="103" column="34" lean-forward="true" selection-start-line="103" selection-start-column="34" selection-end-line="103" selection-end-column="34" />
+        <state relative-caret-position="306">
+          <caret line="21" column="56" selection-start-line="21" selection-start-column="56" selection-end-line="21" selection-end-column="56" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#5149#5150#0" expanded="true" />
-            <element signature="e#5250#5251#0" expanded="true" />
-            <element signature="e#5337#5338#0" expanded="true" />
-            <element signature="e#5372#5373#0" expanded="true" />
+            <element signature="e#817#818#0" expanded="true" />
+            <element signature="e#863#864#0" expanded="true" />
+            <element signature="e#901#902#0" expanded="true" />
+            <element signature="e#935#936#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/view/UIPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1031">
-          <caret line="138" column="20" selection-start-line="138" selection-start-column="20" selection-end-line="138" selection-end-column="20" />
+        <state relative-caret-position="2210">
+          <caret line="219" column="8" selection-start-line="219" selection-start-column="8" selection-end-line="219" selection-end-column="8" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#5498#5681#0" expanded="true" />
-            <element signature="e#5680#5681#0" expanded="true" />
+            <element signature="e#8332#8333#0" expanded="true" />
             <element signature="e#8388#8389#0" expanded="true" />
-            <element signature="e#8434#8435#0" expanded="true" />
-            <element signature="e#8471#8472#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/model/CSVFileWriter.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/model/SQLiteDataBaseFactory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="822">
-          <caret line="60" column="1" lean-forward="true" selection-start-line="60" selection-start-column="1" selection-end-line="60" selection-end-column="1" />
+        <state relative-caret-position="397">
+          <caret line="168" column="46" selection-start-line="168" selection-start-column="46" selection-end-line="168" selection-end-column="46" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/net/optimalsolutionshub/csvfileconsumer/model/CSVFileParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="429">
-          <caret line="39" column="9" selection-start-line="39" selection-start-column="9" selection-end-line="39" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1694#1695#0" expanded="true" />
-            <element signature="e#1797#1798#0" expanded="true" />
+            <element signature="e#5107#5108#0" expanded="true" />
+            <element signature="e#5149#5150#0" expanded="true" />
+            <element signature="e#5185#5186#0" expanded="true" />
+            <element signature="e#5250#5251#0" expanded="true" />
+            <element signature="e#5805#5806#0" expanded="true" />
+            <element signature="e#5841#5842#0" expanded="true" />
           </folding>
         </state>
       </provider>

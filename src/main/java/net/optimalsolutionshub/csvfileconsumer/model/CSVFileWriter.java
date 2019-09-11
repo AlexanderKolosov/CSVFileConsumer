@@ -22,13 +22,12 @@ public class CSVFileWriter {
     }
 
     public void writeValuesToCSVFile(List<String[]> badStrings) throws IOException {
-        if (Files.notExists(badDataFile)) {
+        if (badDataFile == null) {
             createBadDataFile();
         }
         try (CSVWriter writer = new CSVWriter(new FileWriter(badDataFile.toString(), true))) {
             writer.writeAll(badStrings);
         }
-
     }
 
     private void createBadDataFile() {
@@ -40,17 +39,17 @@ public class CSVFileWriter {
     }
 
     private String createAbsoluteFilePath() throws IOException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH-mm-ss",Locale.ENGLISH);
+            SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd'T'HH-mm-ss",Locale.ENGLISH);
 
-        String dataBasePath = getSqLiteDataBaseFactory().getDataBasePath();
-        String badDataFilesDirectory = dataBasePath.substring(0,dataBasePath.lastIndexOf("/")) +
-                "/" + "bad-data-files";
-        Path directories = Files.createDirectories(Paths.get(badDataFilesDirectory));
+            String dataBasePath = getSqLiteDataBaseFactory().getDataBasePath();
+            String badDataFilesDirectory=dataBasePath.substring(0,dataBasePath.lastIndexOf("\\"))+
+                    "/" + "bad-data-files";
+            Path directories = Files.createDirectories(Paths.get(badDataFilesDirectory));
 
-        Date currentDate = new Date();
-        String badDataFileName = sdf.format(currentDate) + ".csv";
+            Date currentDate = new Date();
+            String badDataFileName = "bad-data-" + sdf.format(currentDate) + ".csv";
 
-        String absolutePathToBadDataFile = badDataFilesDirectory + "/" + badDataFileName;
+            String absolutePathToBadDataFile = badDataFilesDirectory + "//" + badDataFileName;
 
         return absolutePathToBadDataFile;
     }
