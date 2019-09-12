@@ -2,6 +2,7 @@ package net.optimalsolutionshub.csvfileconsumer.model;
 
 import au.com.bytecode.opencsv.CSVReader;
 import net.optimalsolutionshub.csvfileconsumer.controller.CSVConsumerAppController;
+import net.optimalsolutionshub.csvfileconsumer.view.UIPanel;
 
 import java.io.FileReader;
 import java.io.IOException;

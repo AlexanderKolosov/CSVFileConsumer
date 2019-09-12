@@ -14,7 +14,6 @@ public class UIPanel extends JPanel{
     private CSVConsumerAppController csvConsumerApp;
     private JLabel dataBaseLabel;
     private JLabel selectCSVFileLabel;
-    private JLabel processNotification;
     private JTextField dataBaseAbsolutePath;
     private JButton createDataBase;
     private JButton selectCSVFile;
@@ -28,7 +27,6 @@ public class UIPanel extends JPanel{
 
         dataBaseLabel = new JLabel("Insert database full path or leave default value");
         selectCSVFileLabel = new JLabel("CSV file NOT selected");
-        processNotification = new JLabel();
         dataBaseAbsolutePath = new JTextField("C:/sqlite/db/customerXDatabase.db", 30);
         createDataBase = new JButton("Create database");
         selectCSVFile = new JButton("Select CSV file");
@@ -43,7 +41,7 @@ public class UIPanel extends JPanel{
     }
 
     private void setUpPanel() {
-        this.setSize(500,300);
+        this.setSize(this.getWidth(),this.getHeight());
         this.setLayout(baseLayout);
         this.add(dataBaseLabel);
         this.add(dataBaseAbsolutePath);
@@ -51,7 +49,6 @@ public class UIPanel extends JPanel{
         this.add(selectCSVFile);
         this.add(selectCSVFileLabel);
         this.add(exit);
-        this.add(processNotification);
     }
 
     private void setUpLayout() {
@@ -79,10 +76,6 @@ public class UIPanel extends JPanel{
                 410, SpringLayout.WEST, this);
         baseLayout.putConstraint(SpringLayout.NORTH, exit,
                 100, SpringLayout.NORTH, selectCSVFileLabel);
-        baseLayout.putConstraint(SpringLayout.WEST, processNotification,
-                10, SpringLayout.WEST, this);
-        baseLayout.putConstraint(SpringLayout.NORTH, processNotification,
-                95, SpringLayout.NORTH, selectCSVFileLabel);
     }
 
     private void setUpListeners() {
@@ -92,7 +85,7 @@ public class UIPanel extends JPanel{
             public void actionPerformed(ActionEvent e) {
                 String dataBaseAbsolutePathText = dataBaseAbsolutePath.getText();
                 getSqLiteDataBaseFactory().setDataBaseAbsolutePath(dataBaseAbsolutePathText);
-                getSqLiteDataBaseFactory().createConnectionToCustomerXDataBase();
+                getSqLiteDataBaseFactory().createConnectionToDataBase();
                 getSqLiteDataBaseFactory().setDatabaseIsCreated(true);
                 getSqLiteDataBaseFactory().startOperation();
             }
@@ -101,10 +94,10 @@ public class UIPanel extends JPanel{
         selectCSVFile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFileChooser fileopen = new JFileChooser();
-                int ret = fileopen.showDialog(null, "Select");
+                JFileChooser fileChooser = new JFileChooser();
+                int ret = fileChooser.showDialog(null, "Select");
                 if (ret == JFileChooser.APPROVE_OPTION) {
-                    File csvFile = fileopen.getSelectedFile();
+                    File csvFile = fileChooser.getSelectedFile();
                     String absolutePath = csvFile.getAbsolutePath();
                     if (absolutePath.endsWith(".csv")) {
                         selectCSVFileLabel.setText(absolutePath);
@@ -132,13 +125,28 @@ public class UIPanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    processNotification.setText("Application in process. Please, wait.");
-                    getCSVFileReader().readCSVFile();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                } catch (SQLException ex) {
+                    getSqLiteDataBaseFactory().vrifyIfTableExists();
+                } catch (IOException | SQLException ex) {
                     ex.printStackTrace();
                 }
+                if (getSqLiteDataBaseFactory().isTableExists()) {
+                    try {
+                        getCSVFileReader().readCSVFile();
+                    } catch (IOException | SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                } else {
+                    this.badTableNameNotification();
+                }
+            }
+
+            public void badTableNameNotification() {
+                JOptionPane.showMessageDialog(
+                        csvConsumerApp.getAppFrame().getAppPanel(),
+                        "Please insert again table name. With letters, only.",
+                        "WARNING!",
+                        JOptionPane.DEFAULT_OPTION
+                );
             }
         });
 
@@ -220,9 +228,10 @@ public class UIPanel extends JPanel{
     }
 
     public void showFinalInformation() {
-        processNotification.setText("");
         selectCSVFileLabel.setText("CSV file NOT selected");
         startOperation.setVisible(false);
+        String badDataFileLocation = getCSVFileWriter().getAbsolutePathToBadDataFile();
+        String logFileLocation = getLogFileFactory().getAbsolutePathToLogFile();
         JOptionPane.showMessageDialog(this,
                 new String[] {"1. Number of records received - " +
                         getCSVFileParser().getNumberOfReceivedRecords(),
@@ -230,18 +239,27 @@ public class UIPanel extends JPanel{
                         getCSVFileParser().getNumberOfSuccessfulRecords(),
                 "3. Number of records failed - " +
                         getCSVFileParser().getNumberOfBadRecords(),
-                "Bad-data file location : " + getCSVFileWriter().getAbsolutePathToBadDataFile(),
-                "Log file location : " + getLogFileFactory().getAbsolutePathToLogFile()},
+                "Bad-data file location : " + badDataFileLocation,
+                "Log file location : " + logFileLocation},
                 "Report",
                 JOptionPane.DEFAULT_OPTION);
     }
 
-    public void badDatabaseInformation() {
-        JOptionPane.showMessageDialog(
-                this,
-                "Please insert again table name. With letters, only.",
+    public void existTableNotification() {
+        Object result = JOptionPane.showInputDialog(this,
+                new String[] {"The table '" + getSqLiteDataBaseFactory().getTableName() +
+                        "' is already exists. ",
+                        "If you are shure that data from your ",
+                        "CSV file is compatible with this table ",
+                        "please, insert the table name again ",
+                        "or choose the other one. ",
+                        "Letters only preferable."},
                 "WARNING!",
                 JOptionPane.DEFAULT_OPTION
         );
+        if (result != null) {
+            String tableName = result.toString();
+            getSqLiteDataBaseFactory().setTableName(tableName);
+        }
     }
 }

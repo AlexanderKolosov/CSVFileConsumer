@@ -23,37 +23,36 @@ public class SQLiteDataBaseFactory {
     private boolean csvFileIsSelected = false;
     private boolean tableExists = false;
     private CSVConsumerAppController csvConsumerApp;
+    private static final String[] testHeader;
+    private static final String[] testValue;
+    private static final List<String[]> testListOfValues = new ArrayList<>();
+
+    static {
+        testHeader = new String[]{"A"};
+        testValue = new String[]{"A"};
+        testListOfValues.add(testValue);
+    }
+
+
 
     public SQLiteDataBaseFactory(CSVConsumerAppController csvConsumerApp) {
         this.csvConsumerApp = csvConsumerApp;
     }
 
     public void createTable(String[] columnHeaders) throws IOException, SQLException {
-        getAppPanel().insertTableName();
         String createTableQuery = buildCreateTableQuery(columnHeaders);
+        Statement statement = null;
         try {
-            System.out.println(dataBaseName);
-            Statement statement = connection.createStatement();
+            statement = connection.createStatement();
             statement.executeUpdate(createTableQuery);
-            isTheTableExists();
         } catch (SQLException e) {
             e.printStackTrace();
-
+        } finally {
+            closeStatement(statement);
         }
-        int i = isTheTableExists();
-
     }
 
-    private int isTheTableExists() throws SQLException {
-        String query =
-                "SELECT name FROM " + tableName + " WHERE type='table' AND name='table_name' COLLATE NOCASE";
-        Statement statement = connection.createStatement();
-        statement.executeUpdate(query);
-
-        return 0;
-    }
-
-    public void createConnectionToCustomerXDataBase() {
+    public void createConnectionToDataBase() {
         createDataBaseDirectory(dataBaseAbsolutePath);
         setDataBaseName(dataBaseAbsolutePath);
         if (dataBaseName.endsWith(".db")) {
@@ -110,13 +109,16 @@ public class SQLiteDataBaseFactory {
 
     public void insertValuesIntoTable(List<String[]> goodStrings) throws SQLException {
         String query = createInsertQuery(goodStrings);
+        Statement statement = null;
         if (!connection.isClosed()) {
             try {
-                Statement statement = connection.createStatement();
+                statement = connection.createStatement();
                 statement.executeUpdate(query);
                 getCSVFleParser().setSuccessfulStrings(new ArrayList<String[]>());
             } catch (SQLException e) {
                 e.printStackTrace();
+            } finally {
+                closeStatement(statement);
             }
         }
     }
@@ -218,10 +220,12 @@ public class SQLiteDataBaseFactory {
         tableName = "";
         databaseIsCreated = false;
         csvFileIsSelected = false;
+        tableExists = false;
         getCSVFileReader().setCSVFilePath("");
         getCSVFleParser().setNumberOfBadRecords(0);
         getCSVFleParser().setNumberOfReceivedRecords(0);
         getCSVFleParser().setNumberOfSuccessfulRecords(0);
+        getCSVFileWriter().setBadDataFile(null);
     }
 
     private CSVFileReader getCSVFileReader() {
@@ -238,5 +242,72 @@ public class SQLiteDataBaseFactory {
 
     public void setConnection(Connection connection) {
         this.connection = connection;
+    }
+
+    public boolean isTableExists() {
+        return tableExists;
+    }
+
+    public void vrifyIfTableExists() throws IOException, SQLException {
+        getAppPanel().insertTableName();
+        int value = countRowsInTheTable();
+        if (value > 0) {
+            tableExists = true;
+            getAppPanel().existTableNotification();
+        } else {
+            dropTableQuery();
+            createTable(testHeader);
+            insertValuesIntoTable(testListOfValues);
+            value = countRowsInTheTable();
+            if (value > 0) {
+                dropTableQuery();
+                tableExists = true;
+            }
+            tableColumnHeaders = "";
+        }
+    }
+
+    private void dropTableQuery() throws SQLException {
+        String query = "DROP TABLE IF EXISTS " + tableName + ";";
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+            statement.execute(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeStatement(statement);
+        }
+    }
+
+    private void closeStatement(Statement statement) throws SQLException {
+        if (statement != null) {
+            statement.close();
+        }
+    }
+
+    private int countRowsInTheTable() throws SQLException {
+        String query = "SELECT COUNT(*) FROM " + tableName + ";";
+        Statement statement = null;
+        int value = 0;
+        try {
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            rs.next();
+            value = rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeStatement(statement);
+        }
+        return value;
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    private CSVFileWriter getCSVFileWriter() {
+        return csvConsumerApp.getCSVFileWriter();
     }
 }

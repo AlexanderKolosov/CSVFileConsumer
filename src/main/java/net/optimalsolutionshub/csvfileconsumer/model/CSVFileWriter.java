@@ -28,10 +28,25 @@ public class CSVFileWriter {
         if (badDataFile == null) {
             createBadDataFile();
         }
-        try (CSVWriter writer = new CSVWriter(new FileWriter(badDataFile.toString(), true))) {
+        try (CSVWriter writer = new CSVWriter(
+                new FileWriter(badDataFile.toString(), true),
+                CSVWriter.DEFAULT_SEPARATOR,
+                CSVWriter.NO_QUOTE_CHARACTER,
+                CSVWriter.NO_ESCAPE_CHARACTER)) {
+            formatStrings(badStrings);
             writer.writeAll(badStrings);
         }
         getCSVFileParser().setBadStrings(new ArrayList<String[]>());
+    }
+
+    private void formatStrings(List<String[]> badStrings) {
+        for (String[] values : badStrings) {
+            for (int i = 1; i < values.length; i++) {
+                if (i == 4 && !values[i].equals("")) {
+                    values[i] = String.format("\"%s\"",values[i]);
+                }
+            }
+        }
     }
 
     private void createBadDataFile() {
@@ -72,5 +87,13 @@ public class CSVFileWriter {
 
     public Date getCurrentDate() {
         return currentDate;
+    }
+
+    public void setAbsolutePathToBadDataFile(String absolutePathToBadDataFile) {
+        this.absolutePathToBadDataFile = absolutePathToBadDataFile;
+    }
+
+    public void setBadDataFile(Path badDataFile) {
+        this.badDataFile = badDataFile;
     }
 }
