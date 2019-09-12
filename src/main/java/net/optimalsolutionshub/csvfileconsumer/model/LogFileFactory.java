@@ -1,42 +1,45 @@
+/*
+ * @application CSV files consuming application
+ *
+ * @date 09/2019
+ * @author Kolosov Alexander
+ *
+ * (This field is filling according to company demands)
+ * */
 package net.optimalsolutionshub.csvfileconsumer.model;
 
 import net.optimalsolutionshub.csvfileconsumer.controller.CSVConsumerAppController;
 
-import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
+import java.io.*;
+import java.nio.file.*;
+import java.util.logging.*;
 
+/*
+* Creates log.config file and .log file. Writes final report in .log file
+* */
 public class LogFileFactory {
+    private CSVConsumerAppController csvConsumerApp;
+    private Logger logger;
+    private Path logFile;
+    private Path configFile;
+    private Path filesDirectory;
+    private String logFilesDirectory;
+    private String absolutePathToLogFile;
+    private String absolutePathToConfigFile;
+
+    private static final String configFileName = "log.config";
+    private static final String logFileName = "log_file.txt";
     private static final String stringHandlers = "handlers = java.util.logging.FileHandler";
     private static final String stringLevel = "java.util.logging.FileHandler.level = INFO";
     private static final String stringAppend = "java.util.logging.FileHandler.append = true";
     private static final String stringFormatter =
             "java.util.logging.FileHandler.formatter = java.util.logging.SimpleFormatter";
 
-    private Logger LOGGER;
-    private Path logFile;
-    private CSVConsumerAppController csvConsumerApp;
-    private Path configFile;
-    private Path filesDirectory;
-    private static final String configFileName = "log.config";
-    private static final String logFileName = "log_file.txt";
-    private String absolutePathToConfigFile;
-    private String absolutePathToLogFile;
-    private String logFilesDirectory;
-
     public LogFileFactory(CSVConsumerAppController csvConsumerApp) {
         this.csvConsumerApp = csvConsumerApp;
     }
 
-    public void insertInformationToLogFile() throws IOException {
+    void insertInformationToLogFile() throws IOException {
         if (configFile == null) {
             createFile(configFileName);
         }
@@ -48,7 +51,7 @@ public class LogFileFactory {
         insertInformation();
     }
 
-    public void createFile(String fileName) throws IOException {
+    private void createFile(String fileName) throws IOException {
         if (filesDirectory == null) {
             createDirectory();
         }
@@ -60,6 +63,7 @@ public class LogFileFactory {
             } else {
                 configFile = Paths.get(absolutePathToConfigFile);
             }
+
         } else {
             absolutePathToLogFile = logFilesDirectory + "/" + fileName;
             if (Files.notExists(Paths.get(absolutePathToLogFile))) {
@@ -72,7 +76,8 @@ public class LogFileFactory {
 
     private void createDirectory() throws IOException {
         String dataBasePath = getSqLiteDataBaseFactory().getDataBasePath();
-        logFilesDirectory=dataBasePath.substring(0,dataBasePath.lastIndexOf("\\"))+
+
+        logFilesDirectory = dataBasePath.substring(0,dataBasePath.lastIndexOf("\\"))+
                 "/" + "log-files";
         if (Files.notExists(Paths.get(logFilesDirectory))) {
             filesDirectory = Files.createDirectories(Paths.get(logFilesDirectory));
@@ -99,30 +104,28 @@ public class LogFileFactory {
     private void loggerGetConfigs() {
         try(FileInputStream ins = new FileInputStream(absolutePathToConfigFile)){
             LogManager.getLogManager().readConfiguration(ins);
-            LOGGER = Logger.getLogger(LogFileFactory.class.getName());
+
+            logger = Logger.getLogger(LogFileFactory.class.getName());
+
             FileHandler fileHandler = new FileHandler(logFile.toString());
-            LOGGER.addHandler(fileHandler);
-        }catch (Exception ignore){
-            ignore.printStackTrace();
+
+            logger.addHandler(fileHandler);
+        }catch (IOException e){
+            e.printStackTrace();
         }
     }
 
     private void insertInformation() {
-        LOGGER.log(Level.INFO," Number of records received - " +
+        logger.log(Level.INFO," Number of records received - " +
                 getCSVFileParser().getNumberOfReceivedRecords());
-        LOGGER.log(Level.INFO," Number of records successful - " +
+        logger.log(Level.INFO," Number of records successful - " +
                 getCSVFileParser().getNumberOfSuccessfulRecords());
-        LOGGER.log(Level.INFO," Number of records failed - " +
+        logger.log(Level.INFO," Number of records failed - " +
                 getCSVFileParser().getNumberOfBadRecords());
     }
 
-
     private SQLiteDataBaseFactory getSqLiteDataBaseFactory() {
         return csvConsumerApp.getSQLiteDataBaseFactory();
-    }
-
-    public Logger getLOGGER() {
-        return LOGGER;
     }
 
     public String getAbsolutePathToLogFile() {
@@ -131,9 +134,5 @@ public class LogFileFactory {
 
     private CSVFileParser getCSVFileParser() {
         return csvConsumerApp.getCSVFileParser();
-    }
-
-    private CSVFileWriter getCSVFileWriter() {
-        return csvConsumerApp.getCSVFileWriter();
     }
 }

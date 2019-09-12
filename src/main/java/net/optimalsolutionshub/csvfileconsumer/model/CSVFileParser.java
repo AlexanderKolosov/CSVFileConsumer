@@ -1,33 +1,41 @@
+/*
+ * @application CSV files consuming application
+ *
+ * @date 09/2019
+ * @author Kolosov Alexander
+ *
+ * (This field is filling according to company demands)
+ * */
 package net.optimalsolutionshub.csvfileconsumer.model;
 
 import au.com.bytecode.opencsv.CSVReader;
 import net.optimalsolutionshub.csvfileconsumer.controller.CSVConsumerAppController;
-import net.optimalsolutionshub.csvfileconsumer.view.UIPanel;
-import org.sqlite.SQLiteException;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
+/*
+* Parse CSV file content and transmit collected data to SQLiteDB operator and CSV file writer
+* */
 public class CSVFileParser {
     private CSVConsumerAppController csvConsumerApp;
-    private List<String[]> badStrings = new LinkedList<>();
-    private List<String[]> successfulStrings = new LinkedList<>();
+    private int numberOfBadRecords;
     private int numberOfReceivedRecords;
     private int numberOfSuccessfulRecords;
-    private int numberOfBadRecords;
+    private List<String[]> badStrings = new LinkedList<>();
+    private List<String[]> successfulStrings = new LinkedList<>();
 
     public CSVFileParser(CSVConsumerAppController csvConsumerApp) {
         this.csvConsumerApp = csvConsumerApp;
     }
 
-    public void parseCSVFile(CSVReader reader) throws IOException, SQLException {
+    void parseCSVFile(CSVReader reader) throws IOException, SQLException {
         String[] nextLine = reader.readNext();
-        csvConsumerApp.getSQLiteDataBaseFactory().createTable(nextLine);
+        csvConsumerApp.getSQLiteDataBaseFactory().createTableQuery(nextLine);
 
         while (nextLine != null) {
+
             for ( int i = 0; i < 1000; i++ ) {
                 nextLine = reader.readNext();
                 if (nextLine != null) {
@@ -41,11 +49,11 @@ public class CSVFileParser {
             }
             if (!badStrings.isEmpty()) {
                 numberOfBadRecords += badStrings.size();
-                getCsvFileWriter().writeValuesToCSVFile(badStrings);
+                getCsvFileWriter().writeDataToCSVFile(badStrings);
             }
             if (!successfulStrings.isEmpty()) {
                 numberOfSuccessfulRecords += successfulStrings.size();
-                getSQLiteDataBaseFactory().insertValuesIntoTable(successfulStrings);
+                getSQLiteDataBaseFactory().insertValuesIntoTableQuery(successfulStrings);
             }
         }
         numberOfReceivedRecords = numberOfBadRecords + numberOfSuccessfulRecords;
@@ -53,24 +61,12 @@ public class CSVFileParser {
         getSQLiteDataBaseFactory().closeConnection();
     }
 
-    public CSVFileReader getCSVFileReader() {
-        return csvConsumerApp.getCSVFileReader();
-    }
-
-    public CSVFileWriter getCsvFileWriter() {
-        return csvConsumerApp.getCSVFileWriter();
-    }
-
-    public SQLiteDataBaseFactory getSQLiteDataBaseFactory() {
+    private SQLiteDataBaseFactory getSQLiteDataBaseFactory() {
         return csvConsumerApp.getSQLiteDataBaseFactory();
     }
 
-    public void setBadStrings(List<String[]> badStrings) {
-        this.badStrings = badStrings;
-    }
-
-    public void setSuccessfulStrings(List<String[]> successfulStrings) {
-        this.successfulStrings = successfulStrings;
+    private CSVFileWriter getCsvFileWriter() {
+        return csvConsumerApp.getCSVFileWriter();
     }
 
     public int getNumberOfReceivedRecords() {
@@ -85,23 +81,23 @@ public class CSVFileParser {
         return numberOfBadRecords;
     }
 
-    private LogFileFactory getLogFile() {
-        return csvConsumerApp.getLogFileFactory();
+    void setBadStrings(List<String[]> badStrings) {
+        this.badStrings = badStrings;
     }
 
-    public void setNumberOfReceivedRecords(int numberOfReceivedRecords) {
-        this.numberOfReceivedRecords = numberOfReceivedRecords;
+    void setSuccessfulStrings(List<String[]> successfulStrings) {
+        this.successfulStrings = successfulStrings;
     }
 
-    public void setNumberOfSuccessfulRecords(int numberOfSuccessfulRecords) {
-        this.numberOfSuccessfulRecords = numberOfSuccessfulRecords;
+    void setNumberOfReceivedRecords() {
+        this.numberOfReceivedRecords = 0;
     }
 
-    public void setNumberOfBadRecords(int numberOfBadRecords) {
-        this.numberOfBadRecords = numberOfBadRecords;
+    void setNumberOfSuccessfulRecords() {
+        this.numberOfSuccessfulRecords = 0;
     }
 
-    private UIPanel getAppPanel() {
-        return csvConsumerApp.getAppFrame().getAppPanel();
+    void setNumberOfBadRecords() {
+        this.numberOfBadRecords = 0;
     }
 }
