@@ -17,9 +17,14 @@ Here is user interface. It helps to user to make all necessary operations:
   these files.
   8. After all application is ready to continue or it should be closed.
   
-  To use the application you need to have installed in the system Oracle Java program:
-    Java (Download page - https://www.java.com/ru/download/).
-  If Java is alreadi installed, just copy folder "target" with all content from the repository to your computer. Find there file
-  net.optimalsolutionshub.csvfileconsumer-1.0-SNAPSHOT.jar, push right mouse button and select ""
-    
-    2. Maven (https://maven.apache.org/download.cgi)
+To use the application you need to have installed in the system Oracle Java platform
+(Download page - https://www.java.com/ru/download/).
+
+Previously verify if it`s already installed. Open console (Win + R and input 'cmd' command) and insert command 'java -version'.
+If you see response with java version it`s already installed in system. Then, just copy folder "target" with all content from the
+repository to your computer. Find there file net.optimalsolutionshub.csvfileconsumer-1.0-SNAPSHOT.jar, push right mouse button and
+select 
+"Open with -> Java(TM) Platform SE(EE) binary".
+
+Or after downloading open console (Win + R and input 'cmd' command). Go to the folder 'target' and insert command
+'java -jar net.optimalsolutionshub.csvfileconsumer-1.0-SNAPSHOT.jar'.
